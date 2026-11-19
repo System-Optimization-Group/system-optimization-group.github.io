@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { areaText } from '../lib/areas';
+import { useI18n } from '../i18n';
+interface Props { area: CollectionEntry<'areas'>; index: number }
+const { area, index } = Astro.props;
+const { l, lang } = useI18n(Astro);
+const { title, summary, topics } = areaText(area, lang);
+---
+<a class="area" href={l(`/research/areas/${area.id}`)}>
+  <span class="num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+  <span class="body">
+    <span class="title">{title}</span>
+    <span class="summary muted">{summary}</span>
+    {topics.length > 0 && <span class="topics">{topics.map((x) => <span class="tag">{x}</span>)}</span>}
+  </span>
+</a>
+<style>
+  .area { display: grid; grid-template-columns: auto 1fr; gap: 18px; padding: 18px 4px; color: inherit; height: 100%; }
+  .area:hover { text-decoration: none; background: var(--bg-soft); }
+  .area:hover .title { color: var(--accent); }
+  .num { font: 600 2rem/1 var(--serif); color: var(--accent); opacity: 0.35; letter-spacing: -0.02em; padding-top: 2px; }
+  .body { display: flex; flex-direction: column; gap: 4px; }
+  .title { font: 600 1.2rem/1.3 var(--serif); color: var(--text); }
+  .summary { font-size: 0.95rem; }
+  .topics { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 2px 0; }
+  @media (max-width: 600px) { .num { font-size: 1.5rem; } .area { gap: 14px; } }
+</style>

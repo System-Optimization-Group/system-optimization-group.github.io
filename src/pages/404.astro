@@ -1,0 +1,18 @@
+---
+// Static hosts serve this for every unknown URL, so it speaks all languages.
+import Base from '../layouts/Base.astro';
+import { langs, meta, ui } from '../i18n/ui';
+import { localize } from '../i18n';
+---
+<Base title="404">
+  <h1>404</h1>
+  <ul class="msgs">
+    {langs.map((x) => (
+      <li lang={meta[x].html}>
+        <strong>{ui[x]['notFound.title']}</strong> — {ui[x]['notFound.text']}
+        <a href={localize(x, '/')}>{ui[x]['notFound.home']}</a>
+      </li>
+    ))}
+  </ul>
+</Base>
+<style>.msgs { list-style: none; padding: 0; } .msgs li { padding: 10px 0; border-bottom: 1px solid var(--border); }</style>

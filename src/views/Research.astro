@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import AreaTile from '../components/AreaTile.astro';
+import { getAreas, areaText } from '../lib/areas';
+import { useI18n } from '../i18n';
+
+const { t, l, lang } = useI18n(Astro);
+const areas = await getAreas();
+const areaTitle = new Map(areas.map((a) => [a.id, areaText(a, lang).title]));
+const projects = (await getCollection('projects')).sort((a, b) => {
+  // Group projects by area (in area order), then by their own order.
+  const ai = areas.findIndex((x) => x.id === a.data.area?.id), bi = areas.findIndex((x) => x.id === b.data.area?.id);
+  return (ai < 0 ? 1e9 : ai) - (bi < 0 ? 1e9 : bi) || a.data.order - b.data.order;
+});
+const active = projects.filter((p) => p.data.active);
+const past = projects.filter((p) => !p.data.active);
+---
+<Base title={t('research.title')}>
+  <div class="page-head">
+    <h1>{t('research.title')}</h1>
+    <p>{t('research.intro')}</p>
+  </div>
+
+  <section id="areas">
+    <h2 class="rule">{t('research.areas')}</h2>
+    <ol class="area-list">
+      {areas.map((a, i) => <li><AreaTile area={a} index={i} /></li>)}
+    </ol>
+  </section>
+
+  <section id="projects" class="section">
+    <h2 class="rule">{t('research.projects')}</h2>
+    <div class="grid">{active.map((p) => <ProjectCard project={p} area={areaTitle.get(p.data.area?.id ?? '')} />)}</div>
+  </section>
+
+  {past.length > 0 && (
+    <section class="section">
+      <h2 class="rule">{t('research.past')}</h2>
+      <div class="grid">{past.map((p) => <ProjectCard project={p} area={areaTitle.get(p.data.area?.id ?? '')} />)}</div>
+    </section>
+  )}
+</Base>

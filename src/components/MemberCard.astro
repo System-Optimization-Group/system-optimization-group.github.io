@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../lib/url';
+import { useI18n } from '../i18n';
+interface Props { member: CollectionEntry<'members'> }
+const { member } = Astro.props;
+const { l } = useI18n(Astro);
+const d = member.data;
+const initials = d.name.split(/\s+/).map((s) => s[0]).slice(0, 2).join('');
+---
+<a class="card member" href={l(`/people/${member.id}`)}>
+  {d.photo
+    ? <img src={url(d.photo)} alt="" class="avatar" loading="lazy" />
+    : <div class="avatar ph" aria-hidden="true">{initials}</div>}
+  <div>
+    <h3>{d.name}</h3>
+    {d.title && <p class="muted small">{d.title}</p>}
+    {d.interests.length > 0 && <p class="small interests">{d.interests.join(' · ')}</p>}
+  </div>
+</a>
+<style>
+  .member { display: flex; gap: 16px; align-items: center; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; }
+  .ph { display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-weight: 650; }
+  h3 { margin: 0 0 2px; }
+  p { margin: 0; }
+  .interests { color: var(--muted); margin-top: 4px; }
+</style>

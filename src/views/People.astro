@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import MemberCard from '../components/MemberCard.astro';
+import { roleOrder, alwaysShowRoles } from '../site.config';
+import { useI18n } from '../i18n';
+
+const { t } = useI18n(Astro);
+const members = await getCollection('members');
+const groups = roleOrder
+  .map((role) => ({ role, label: t(`role.${role}`), people: members.filter((m) => m.data.role === role) }))
+  .filter((g) => g.people.length || alwaysShowRoles.includes(g.role));
+---
+<Base title={t('people.title')}>
+  <div class="page-head">
+    <h1>{t('people.title')}</h1>
+    <p>{t('people.intro')}</p>
+  </div>
+  {groups.map((g) => (
+    <section class="section first">
+      <h2 class="rule">{g.label}</h2>
+      {g.people.length > 0 && g.role === 'alumni'
+        ? <ul class="alumni">{g.people.map((m) => (
+            <li>
+              {m.data.website ? <a href={m.data.website}>{m.data.name}</a> : <strong>{m.data.name}</strong>}
+              {m.data.title && <span class="muted"> ({m.data.title})</span>}
+            </li>
+          ))}</ul>
+        : g.people.length > 0
+        ? <div class="grid">{g.people.map((m) => <MemberCard member={m} />)}</div>
+        : <p class="muted">{t('people.none')}</p>}
+    </section>
+  ))}
+</Base>
+<style>
+  .first:first-of-type { margin-top: 0; }
+  .alumni { margin: 0; padding-left: 1.2em; }
+  .alumni li { margin-bottom: 6px; }
+  .alumni strong { font-weight: 600; }
+</style>

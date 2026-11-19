@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import { render } from 'astro:content';
+import { fmtDate } from '../lib/dates';
+import { getPositions, applyHref } from '../lib/positions';
+import { site } from '../site.config';
+import { useI18n } from '../i18n';
+const { t, s, lang, intl } = useI18n(Astro);
+// Positions are Markdown files in src/content/positions/<id>/<lang>.md
+const positions = await Promise.all(
+  (await getPositions(lang)).map(async (p) => ({ ...p, Content: (await render(p.entry)).Content })),
+);
+
+const subject = `[Application to ${site.shortName}]`;
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(subject + ' ')}`;
+// Split each step around its {subject} / {email} placeholder so they can be styled/linked.
+const steps = (['jobs.step1', 'jobs.step2', 'jobs.step3', 'jobs.step4'] as const)
+  .map((k) => t(k, { subject: '\u0000s\u0000', email: '\u0000e\u0000' }).split('\u0000'));
+---
+<Base title={t('nav.jobs')}>
+  <div class="page-head">
+    <h1>{t('jobs.title')}</h1>
+    <p>{s.join.intro}</p>
+  </div>
+
+  <div class="join">
+    <section>
+      <h2 class="rule">{t('jobs.lookFor')}</h2>
+      {s.join.lookFor.map((p) => <p>{p}</p>)}
+    </section>
+
+    {s.join.inquiries && s.join.inquiries.length > 0 && (
+      <section class="section">
+        <h2 class="rule">{t('jobs.inquiries')}</h2>
+        {s.join.inquiries.map((p) => <p>{p}</p>)}
+      </section>
+    )}
+
+    <section class="section">
+      <h2 class="rule">{t('jobs.include')}</h2>
+      <p>{t('jobs.includeIntro')}</p>
+      <ol class="steps">
+        {steps.map((parts) => (
+          <li>{parts.map((p, i) => i % 2 === 0 ? p
+            : p === 's' ? <code>{subject}</code>
+            : <a href={mailto}>{site.email}</a>)}</li>
+        ))}
+      </ol>
+    </section>
+
+    {positions.length > 0 && (
+      <section class="section">
+        <h2 class="rule">{t('jobs.positionsTitle')}</h2>
+        <div class="positions">
+          {positions.map((p) => (
+            <details class="pos-item" open={p.open}>
+              <summary>
+                {p.title}
+                {p.open && <span class="tag open-tag">{t('jobs.statusOpen')}</span>}
+              </summary>
+              <div class="pos-body">
+                {p.summary && <p class="muted">{p.summary}</p>}
+                <dl class="facts">
+                  {p.open && <><dt>{t('jobs.deadline')}</dt><dd>{p.deadline ? fmtDate(p.deadline, intl) : t('jobs.untilFilled')}</dd></>}
+                  {p.start && <><dt>{t('jobs.start')}</dt><dd>{p.start}</dd></>}
+                  {p.location && <><dt>{t('jobs.location')}</dt><dd>{p.location}</dd></>}
+                </dl>
+                <p.Content />
+                {p.open && <p><a class="btn primary" href={applyHref(p.apply ?? mailto)}>{t('jobs.apply')}</a></p>}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Base>
+<style>
+  .join { max-width: 760px; }
+  .steps { padding-left: 1.4em; margin: 0; }
+  .steps li { margin-bottom: 6px; padding-left: 4px; }
+  .steps li::marker { font: 600 0.92rem var(--sans); color: var(--accent); }
+  code { font-size: 0.85em; background: var(--bg-soft); border: 1px solid var(--border); padding: 1px 5px; border-radius: var(--radius); white-space: nowrap; }
+
+  .positions { margin-top: 16px; }
+  .pos-item {
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0 14px;
+  }
+  .pos-item summary {
+    font: 600 1.15rem var(--sans);
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 0;
+  }
+  .pos-item summary:hover {
+    color: var(--accent);
+  }
+  .pos-body {
+    padding: 8px 0 4px 18px;
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+  .pos-body p {
+    margin: 10px 0;
+  }
+  .open-tag { margin-left: 10px; vertical-align: middle; }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 2px 16px; margin: 6px 0 12px; font: 0.92rem var(--sans); }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin: 0; }
+  .pos-body :global(h2) { font: 600 1rem var(--sans); margin: 16px 0 4px; }
+  .pos-body :global(ul) { margin: 6px 0; padding-left: 1.3em; }
+  .pos-body strong {
+    font-family: var(--sans);
+    font-weight: 600;
+    color: var(--text);
+  }
+</style>

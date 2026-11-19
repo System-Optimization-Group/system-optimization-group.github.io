@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SoftwareCard from '../components/SoftwareCard.astro';
+import { useI18n } from '../i18n';
+const { t } = useI18n(Astro);
+const tools = (await getCollection('software')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title={t('software.title')}>
+  <div class="page-head">
+    <h1>{t('software.title')}</h1>
+    <p>{t('software.intro')}</p>
+  </div>
+  <div class="grid">{tools.map((x) => <SoftwareCard tool={x} />)}</div>
+</Base>

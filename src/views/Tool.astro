@@ -1,0 +1,51 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import MemberCard from '../components/MemberCard.astro';
+import PaperItem from '../components/PaperItem.astro';
+import { papers } from '../lib/papers';
+import { useI18n } from '../i18n';
+
+interface Props { tool: CollectionEntry<'software'> }
+const { tool } = Astro.props;
+const { t, l } = useI18n(Astro);
+const d = tool.data;
+const { Content } = await render(tool);
+const team = (await getCollection('members')).filter((m) => d.members.some((r) => r.id === m.id));
+const related = papers.filter((p) => d.papers.includes(p.id) || (p.arxiv_id && d.papers.includes(p.arxiv_id)));
+---
+<Base title={d.name} description={d.summary}>
+  <p class="small"><a href={l('/software')}>{t('software.back')}</a></p>
+  <div class="page-head">
+    <h1>{d.name}</h1>
+    <p>{d.summary}</p>
+    <ul class="tags">
+      {d.language && <li class="tag">{d.language}</li>}
+      {d.license && <li class="tag neutral">{d.license}</li>}
+      {d.tags.map((x) => <li class="tag neutral">{x}</li>)}
+    </ul>
+    {d.install && <pre class="install"><code>{d.install}</code></pre>}
+    <p class="actions">
+      {d.repo && <a class="btn primary" href={d.repo}>{t('software.source')}</a>}
+      {d.docs && <a class="btn" href={d.docs}>{t('software.documentation')}</a>}
+    </p>
+  </div>
+  <div class="prose"><Content /></div>
+  {related.length > 0 && (
+    <section class="section">
+      <h2 class="rule">{t('software.related')}</h2>
+      {related.map((p) => <PaperItem paper={p} compact />)}
+    </section>
+  )}
+  {team.length > 0 && (
+    <section class="section">
+      <h2 class="rule">{t('software.developers')}</h2>
+      <div class="grid">{team.map((m) => <MemberCard member={m} />)}</div>
+    </section>
+  )}
+</Base>
+<style>
+  .tags { margin-top: 4px; }
+  .install { margin: 18px 0 0; padding: 12px 14px; border-radius: var(--radius); background: var(--bg-soft); border: 1px solid var(--border); overflow-x: auto; font-size: 0.88rem; }
+  .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+</style>

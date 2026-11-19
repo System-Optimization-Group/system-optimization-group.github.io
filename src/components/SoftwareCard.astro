@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { useI18n } from '../i18n';
+interface Props { tool: CollectionEntry<'software'> }
+const { tool } = Astro.props;
+const d = tool.data;
+const { t, l } = useI18n(Astro);
+---
+<div class="card sw">
+  <h3><a href={l(`/software/${tool.id}`)}>{d.name}</a></h3>
+  <p class="muted small summary">{d.summary}</p>
+  {d.install && <code class="install">{d.install}</code>}
+  <div class="foot">
+    <ul class="tags">
+      {d.language && <li class="tag">{d.language}</li>}
+      {d.license && <li class="tag neutral">{d.license}</li>}
+    </ul>
+    <span class="links small">
+      {d.repo && <a href={d.repo}>{t('software.code')}</a>}
+      {d.docs && <a href={d.docs}>{t('software.docs')}</a>}
+    </span>
+  </div>
+</div>
+<style>
+  .sw { display: flex; flex-direction: column; }
+  h3 a { color: var(--text); }
+  h3 a:hover { color: var(--accent); }
+  .summary { flex: 1; }
+  .install {
+    display: block; font-size: 0.8rem; padding: 8px 10px; margin-bottom: 14px; border-radius: 6px;
+    background: var(--bg-soft); border: 1px solid var(--border); overflow-x: auto; white-space: nowrap;
+  }
+  .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .links { display: flex; gap: 16px; }
+  .links a { padding: 8px 0; }
+</style>

@@ -1,0 +1,53 @@
+---
+// Builds every page in every interface language:
+//   /people, /zh-hans/people, /zh-hant/people, ...
+// The page markup lives in src/views/; add new pages to `pages` below.
+import { getCollection } from 'astro:content';
+import { langs, defaultLang } from '../i18n/ui';
+import Home from '../views/Home.astro';
+import Research from '../views/Research.astro';
+import Project from '../views/Project.astro';
+import Area from '../views/Area.astro';
+import People from '../views/People.astro';
+import Person from '../views/Person.astro';
+import Publications from '../views/Publications.astro';
+import Software from '../views/Software.astro';
+import Tool from '../views/Tool.astro';
+import News from '../views/News.astro';
+import NewsPost from '../views/NewsPost.astro';
+import Join from '../views/Join.astro';
+
+const views = { Home, Research, Area, Project, People, Person, Publications, Software, Tool, News, NewsPost, Join };
+type View = keyof typeof views;
+
+export async function getStaticPaths() {
+  const [areas, projects, members, software, news] = await Promise.all([
+    getCollection('areas'), getCollection('projects'), getCollection('members'), getCollection('software'),
+    getCollection('news'),
+  ]);
+  const pages: { path: string; view: View; props?: Record<string, unknown> }[] = [
+    { path: '', view: 'Home' },
+    { path: 'research', view: 'Research' },
+    ...areas.map((a) => ({ path: `research/areas/${a.id}`, view: 'Area' as const, props: { area: a } })),
+    ...projects.map((p) => ({ path: `research/projects/${p.id}`, view: 'Project' as const, props: { project: p } })),
+    { path: 'people', view: 'People' },
+    ...members.map((m) => ({ path: `people/${m.id}`, view: 'Person' as const, props: { member: m } })),
+    { path: 'publications', view: 'Publications' },
+    { path: 'software', view: 'Software' },
+    ...software.map((s) => ({ path: `software/${s.id}`, view: 'Tool' as const, props: { tool: s } })),
+    { path: 'news', view: 'News' },
+    ...news.map((n) => ({ path: `news/${n.id}`, view: 'NewsPost' as const, props: { item: n } })),
+    { path: 'join', view: 'Join' },
+  ];
+  return langs.flatMap((lang) =>
+    pages.map((p) => ({
+      params: { path: [lang === defaultLang ? '' : lang, p.path].filter(Boolean).join('/') || undefined },
+      props: { view: p.view, data: p.props ?? {} },
+    })),
+  );
+}
+
+const { view, data } = Astro.props as { view: View; data: Record<string, unknown> };
+const Page = views[view] as any;
+---
+<Page {...data} />

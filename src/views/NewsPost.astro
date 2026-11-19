@@ -1,0 +1,18 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { fmtDate } from '../lib/dates';
+import { useI18n } from '../i18n';
+interface Props { item: CollectionEntry<'news'> }
+const { item } = Astro.props;
+const { t, l, intl } = useI18n(Astro);
+const { Content } = await render(item);
+---
+<Base title={item.data.title} description={item.data.summary}>
+  <p class="small"><a href={l('/news')}>{t('news.back')}</a></p>
+  <article class="prose">
+    <p class="muted small sans"><span class="tag">{t(`newsTag.${item.data.tag}` as const)}</span>&nbsp; {fmtDate(item.data.date, intl)}</p>
+    <h1>{item.data.title}</h1>
+    <Content />
+  </article>
+</Base>

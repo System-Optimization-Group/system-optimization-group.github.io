@@ -1,0 +1,241 @@
+---
+import '../styles/global.css';
+import { site } from '../site.config';
+import { url } from '../lib/url';
+import { useI18n, langs, meta, localize, pagePath } from '../i18n';
+
+interface Props { title?: string; description?: string }
+const { t, l, lang, s } = useI18n(Astro);
+const { title, description = s.description } = Astro.props;
+const pageTitle = title ? `${title} · ${s.name}` : s.name;
+const rawPath = pagePath(Astro.url.pathname);
+// The 404 page exists only once: its language links go to each home page.
+const path = rawPath === '/404' ? '/' : rawPath;
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
+const abs = (p: string) => (Astro.site ? new URL(p, Astro.site).href : p);
+
+// CJK pages: add serif CJK webfonts (Google Fonts serves only the glyphs a page uses).
+// Source Han Serif / Sans (Noto) - SC for Simplified, HK forms for Traditional.
+// Google Fonts splits CJK fonts into small unicode-range slices, so a page
+// downloads only the characters it uses; the sans is only fetched when the
+// system has no PingFang (i.e. mostly Windows/Linux).
+const cjkFonts: Record<string, string[]> = {
+  'zh-hans': ['Noto+Serif+SC:wght@400;600;700', 'Noto+Sans+SC:wght@400;500;700'],
+  'zh-hant': ['Noto+Serif+HK:wght@400;600;700', 'Noto+Sans+HK:wght@400;500;700'],
+};
+const fonts = ['Source+Sans+3:wght@400;600;700', 'Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400',
+  ...(cjkFonts[lang] ?? [])].map((f) => `family=${f}`).join('&');
+---
+<!doctype html>
+<html lang={meta[lang].html}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#1a3d6d" />
+    <link rel="canonical" href={abs(localize(lang, path))} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={s.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={abs(localize(lang, path))} />
+    <meta property="og:locale" content={meta[lang].html.replace('-', '_')} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="format-detection" content="telephone=no" />
+    {langs.map((x) => <link rel="alternate" hreflang={meta[x].html} href={abs(localize(x, path))} />)}
+    <link rel="alternate" hreflang="x-default" href={abs(localize('en', path))} />
+    <link rel="sitemap" href={url("/sitemap-index.xml")} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {/* Web fonts load without blocking rendering: if Google Fonts is slow or blocked (e.g. some
+        mobile networks), the page shows immediately in the system fonts from the font stacks. */}
+    <link rel="stylesheet" href={`https://fonts.googleapis.com/css2?${fonts}&display=swap`} media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href={`https://fonts.googleapis.com/css2?${fonts}&display=swap`} /></noscript>
+  </head>
+  <body>
+    <a class="skip" href="#main">{t('ui.skip')}</a>
+    <div class="strip">
+      <div class="container strip-row">
+        <div class="lang-menu">
+          <button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-controls="lang-list"
+            aria-label={`${t('ui.language')}: ${meta[lang].name}`} title={t('ui.language')}>
+            <svg class="globe" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.4 2.5 3.7 5.5 3.7 9s-1.3 6.5-3.7 9c-2.4-2.5-3.7-5.5-3.7-9S9.6 5.5 12 3z" />
+            </svg>
+            <span class="cur">{meta[lang].name}</span>
+            <svg class="caret" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>
+          </button>
+          <ul id="lang-list" class="lang-list">
+            {langs.map((x) => (
+              <li>
+                <a href={localize(x, path)} hreflang={meta[x].html} lang={meta[x].html} aria-current={x === lang ? 'true' : undefined}>
+                  <span>{meta[x].name}</span>
+                  {x === lang && <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8.5 3.2 3L13 4.5" /></svg>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container bar">
+        <a class="brand" href={l('/')}>
+          <span class="brand-name">{s.name}</span>
+          <span class="brand-tag">{s.tagline}</span>
+        </a>
+        <button type="button" class="nav-button" aria-label={t('ui.menu')} aria-expanded="false" aria-controls="site-nav"><span></span></button>
+        <nav id="site-nav" class="main-nav">
+          {site.nav.map((n) => (
+            <a href={l(n.href)} class:list={{ active: isActive(n.href) }}>{t(n.key)}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main id="main"><div class="container"><slot /></div></main>
+
+    <footer class="site-footer">
+      <div class="container cols">
+        <div>
+          <strong>{s.name}</strong>
+          <p class="muted small tagline">{s.tagline}</p>
+        </div>
+        <section id="contact" aria-labelledby="contact-h">
+          <h2 id="contact-h" class="foot-h">{t('contact.title')}</h2>
+          <address class="muted small">
+            {s.institution}<br />
+            {s.address.map((line) => <>{line}<br /></>)}
+          </address>
+          <p class="small mail"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        </section>
+        <div class="small links">
+          {site.nav.map((n) => <a href={l(n.href)}>{t(n.key)}</a>)}
+          <a href={l('/join')}>{t('nav.jobs')}</a>
+          {site.github && <a href={site.github}>GitHub</a>}
+        </div>
+      </div>
+      <div class="container muted small copy">© {new Date().getFullYear()} {s.name}</div>
+    </footer>
+  </body>
+</html>
+
+<script>
+  // Mobile menu: toggle, close on Escape, outside tap, or when a link is chosen.
+  const btn = document.querySelector<HTMLButtonElement>('.nav-button')!;
+  const nav = document.getElementById('site-nav')!;
+  const set = (open: boolean) => { btn.setAttribute('aria-expanded', String(open)); nav.classList.toggle('open', open); };
+  btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && set(false));
+  document.addEventListener('click', (e) => { if (!(e.target as Element).closest('.site-header')) set(false); });
+  nav.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) set(false); });
+
+  // Language menu: click/tap toggles (hover is handled in CSS), Escape or outside click closes.
+  const menu = document.querySelector<HTMLElement>('.lang-menu')!;
+  const langBtn = menu.querySelector<HTMLButtonElement>('.lang-btn')!;
+  const setLang = (open: boolean) => { menu.classList.toggle('open', open); langBtn.setAttribute('aria-expanded', String(open)); };
+  langBtn.addEventListener('click', () => setLang(!menu.classList.contains('open')));
+  document.addEventListener('click', (e) => { if (!menu.contains(e.target as Node)) setLang(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setLang(false); } });
+</script>
+
+<style>
+  /* Top bar: identical in every language - fixed height, no case/tracking tricks. */
+  .strip {
+    background: var(--accent); color: var(--on-accent);
+    font: 500 0.82rem/1 var(--sans); letter-spacing: 0.01em;
+  }
+  .strip-row { display: flex; justify-content: flex-end; align-items: center; gap: 16px; height: 38px; }
+  .strip { position: relative; z-index: 20; }   /* dropdown must cover the sticky header */
+
+  /* Language menu: globe button; opens on hover (mouse) or click/tap (touch, keyboard). */
+  .lang-menu { position: relative; flex: none; }
+  .lang-btn {
+    display: flex; align-items: center; gap: 7px; width: 128px; height: 26px; padding: 0 10px;
+    background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.35); border-radius: 999px;
+    color: var(--on-accent); font: 500 0.8rem/1 var(--sans); letter-spacing: 0.01em; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .lang-btn .cur { flex: 1; text-align: left; }
+  .lang-btn:hover, .lang-menu.open .lang-btn { background: rgb(255 255 255 / 0.16); border-color: rgb(255 255 255 / 0.6); }
+  .globe { flex: none; }
+  .lang-btn:focus-visible { outline: 2px solid var(--on-accent); outline-offset: 2px; }
+  .caret { transition: transform 0.15s; }
+  .lang-menu.open .caret { transform: rotate(180deg); }
+  .lang-list {
+    display: none; position: absolute; right: 0; top: calc(100% + 6px); min-width: 168px; margin: 0; padding: 6px 0;
+    list-style: none; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: 0 10px 28px rgb(0 0 0 / 0.14); letter-spacing: 0; text-transform: none;
+  }
+  .lang-list::before { content: ''; position: absolute; left: 0; right: 0; top: -8px; height: 8px; }  /* hover bridge */
+  .lang-menu.open .lang-list { display: block; }
+  @media (hover: hover) { .lang-menu:hover .lang-list { display: block; } }
+  .lang-list a {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 9px 16px; color: var(--text); font: 500 0.92rem var(--sans);
+  }
+  .lang-list a:hover, .lang-list a:focus-visible { background: var(--bg-soft); text-decoration: none; outline: none; }
+  .lang-list a[aria-current] { color: var(--accent); font-weight: 700; }
+
+  .site-header { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 76px; }
+  .brand { display: flex; flex-direction: column; color: var(--text); line-height: 1.2; }
+  .brand:hover { text-decoration: none; }
+  .brand-name { font: 600 1.35rem var(--serif); }
+  .brand-tag { font: italic 0.9rem var(--serif); color: var(--muted); }
+  .main-nav { display: flex; gap: 2px; font-family: var(--sans); }
+  .main-nav a {
+    color: var(--muted); padding: 6px 10px; font-size: 0.82rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 2px solid transparent; white-space: nowrap;
+  }
+  .main-nav a:hover { color: var(--text); text-decoration: none; }
+  .main-nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-button { display: none; }
+
+  @media (max-width: 960px) {
+    .strip-row { height: 44px; }
+    .lang-btn { height: 32px; }   /* finger-sized */
+    .lang-list a { padding: 13px 18px; }
+    .bar { min-height: 60px; }
+    .brand { min-width: 0; }
+    .brand-name { font-size: 1.15rem; }
+    .brand-tag { display: none; }
+    .nav-button {
+      display: grid; place-items: center; width: 44px; height: 44px; margin-right: -8px; flex: none;
+      background: none; border: 0; padding: 0; cursor: pointer; color: var(--text);
+    }
+    .nav-button span, .nav-button span::before, .nav-button span::after {
+      content: ''; display: block; width: 20px; height: 2px; background: var(--text); position: relative;
+    }
+    .nav-button span::before { position: absolute; top: -6px; }
+    .nav-button span::after { position: absolute; top: 6px; }
+    .nav-button[aria-expanded='true'] span { background: transparent; }
+    .nav-button[aria-expanded='true'] span::before { top: 0; transform: rotate(45deg); }
+    .nav-button[aria-expanded='true'] span::after { top: 0; transform: rotate(-45deg); }
+    .main-nav {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; padding: 4px 16px 12px; background: var(--bg);
+      border-bottom: 1px solid var(--border); box-shadow: 0 8px 16px rgb(0 0 0 / 0.08);
+      max-height: calc(100vh - 60px); max-height: calc(100dvh - 60px); overflow-y: auto;
+    }
+    .main-nav.open { display: flex; }
+    .main-nav a { padding: 13px 4px; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+    .main-nav a:last-child { border-bottom: 0; }
+    .main-nav a.active { border-bottom-color: var(--border); box-shadow: inset 3px 0 0 var(--accent); padding-left: 12px; }
+    .links a { padding: 6px 0; }
+  }
+
+  .site-footer { border-top: 3px solid var(--accent); background: var(--bg-soft); padding: 40px 0 24px; font-family: var(--sans); }
+  .site-footer strong { font: 600 1.1rem var(--serif); }
+  .cols { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  address { font-style: normal; line-height: 1.7; }
+  .foot-h { font: 600 0.78rem var(--sans); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text); margin: 0 0 10px; }
+  .tagline { margin-top: 4px; }
+  .mail { margin: 8px 0 0; }
+  .mail a { padding: 6px 0; display: inline-block; }
+  .links { display: flex; flex-direction: column; gap: 4px; }
+  .links a { color: var(--muted); }
+  .copy { margin-top: 28px; }
+</style>

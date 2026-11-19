@@ -1,0 +1,90 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PaperItem from '../components/PaperItem.astro';
+import { papers, year } from '../lib/papers';
+import { useI18n } from '../i18n';
+
+const { t } = useI18n(Astro);
+
+const members = await getCollection('members');
+const years = [...new Set(papers.map(year))];
+const authors = members.filter((m) => papers.some((p) => p.members.includes(m.id)));
+---
+<Base title={t('pubs.title')}>
+  <div class="page-head">
+    <h1>{t('pubs.title')}</h1>
+    <p>{t('pubs.intro')}</p>
+  </div>
+
+  <div class="filters">
+    <input id="q" type="search" placeholder={t('pubs.search')} aria-label={t('pubs.search')} />
+    <select id="member" aria-label={t('pubs.allMembers')}>
+      <option value="">{t('pubs.allMembers')}</option>
+      {authors.map((m) => <option value={m.id}>{m.data.name}</option>)}
+    </select>
+    <select id="year" aria-label={t('pubs.allYears')}>
+      <option value="">{t('pubs.allYears')}</option>
+      {years.map((y) => <option value={y}>{y}</option>)}
+    </select>
+    <span id="count" class="muted small" data-one={t('pubs.countOne')} data-many={t('pubs.countMany')}>{t(papers.length === 1 ? 'pubs.countOne' : 'pubs.countMany', { n: papers.length })}</span>
+  </div>
+
+  {years.map((y) => (
+    <section class="year-group" data-year={y}>
+      <h2>{y}</h2>
+      {papers.filter((p) => year(p) === y).map((p) => <PaperItem paper={p} />)}
+    </section>
+  ))}
+  <p id="empty" class="muted" hidden>{t('pubs.none')}</p>
+</Base>
+
+<script>
+  const q = document.getElementById('q') as HTMLInputElement;
+  const member = document.getElementById('member') as HTMLSelectElement;
+  const yearSel = document.getElementById('year') as HTMLSelectElement;
+  const count = document.getElementById('count')!;
+  const empty = document.getElementById('empty')!;
+  const params = new URLSearchParams(location.search);
+  if (params.get('member')) member.value = params.get('member')!;
+
+  function apply() {
+    const term = q.value.trim().toLowerCase();
+    let n = 0;
+    document.querySelectorAll<HTMLElement>('.year-group').forEach((g) => {
+      let visible = 0;
+      g.querySelectorAll<HTMLElement>('.paper').forEach((p) => {
+        const ok = (!term || p.dataset.search!.includes(term))
+          && (!member.value || p.dataset.members!.split(' ').includes(member.value))
+          && (!yearSel.value || p.dataset.year === yearSel.value);
+        p.hidden = !ok;
+        if (ok) visible++;
+      });
+      g.hidden = visible === 0;
+      n += visible;
+    });
+    count.textContent = (n === 1 ? count.dataset.one! : count.dataset.many!).replace('{n}', String(n));
+    empty.hidden = n > 0;
+  }
+  [q, member, yearSel].forEach((el) => el.addEventListener('input', apply));
+  apply();
+</script>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+  input, select {
+    font: 16px var(--sans); padding: 8px 12px; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+  }
+  input { flex: 1 1 260px; min-height: 44px; }
+  select { min-height: 44px; }
+  @media (max-width: 600px) {
+    .filters { display: grid; grid-template-columns: 1fr 1fr; }
+    input, #count { grid-column: 1 / -1; }
+    select { width: 100%; }
+  }
+  input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .year-group { margin-top: 32px; }
+  .year-group h2 { font-size: 1.1rem; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 0; }
+  [hidden] { display: none !important; }
+</style>

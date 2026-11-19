@@ -1,0 +1,220 @@
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f7f6f2;
+  --text: #1c1c1c;
+  --muted: #5e5e5e;
+  --border: #e0ddd5;
+  --accent: #1a3d6d;          /* institutional navy */
+  --accent-soft: #edf1f7;
+  --on-accent: #ffffff;
+  --radius: 3px;
+  --max: 1100px;
+  --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --sans: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121418;
+    --bg-soft: #1a1d22;
+    --text: #e6e4df;
+    --muted: #a3a09a;
+    --border: #2d3036;
+    --accent: #8fb0e3;
+    --accent-soft: #1c2533;
+    --on-accent: #121418;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.65 var(--serif);
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;           /* long titles, URLs and names never push the page sideways */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Form fields at 16px so iOS Safari doesn't zoom in on focus. */
+input, select, textarea { font-size: 16px; }
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  main { padding: 28px 0 56px; }
+  .page-head { margin-bottom: 24px; padding-bottom: 16px; }
+  .section { margin-top: 40px; }
+  .section-head a { padding: 8px 0; }  /* bigger tap target */
+  .card { padding: 16px; }
+  /* Stand-alone links (back links, list links, card links) get finger-sized hit areas. */
+  p.small > a:only-child, .card p > a:only-child, main li > a:first-child { display: inline-block; padding: 8px 0; }
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+a { color: var(--accent); text-decoration: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+/* Skip link: first focusable element, visible only on keyboard focus. */
+.skip { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 8px 14px; background: var(--accent); color: var(--on-accent); font: 600 0.9rem var(--sans); border-radius: var(--radius); }
+.skip:focus { top: 10px; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+img { max-width: 100%; display: block; }
+code, pre { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+
+h1, h2, h3 { font-family: var(--serif); line-height: 1.25; margin: 0 0 0.5em; font-weight: 600; }
+h1 { font-size: clamp(1.9rem, 4vw, 2.5rem); letter-spacing: -0.01em; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.1rem; }
+p { margin: 0 0 1em; }
+
+/* Section headings carry a thin rule, like a printed report. */
+.rule { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 20px; }
+
+.container { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+@media (min-width: 720px) { .container { padding: 0 28px; } }
+
+main { padding: 44px 0 72px; min-height: 60vh; }
+
+.page-head { margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.page-head p { color: var(--muted); max-width: 700px; font-size: 1.08rem; margin-bottom: 0; }
+.page-head .tags { margin-top: 14px; }
+
+.section { margin-top: 56px; }
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 18px;
+}
+.section-head h2 { margin: 0; }
+.section-head a { font: 0.92rem var(--sans); white-space: nowrap; }
+
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+.sans { font-family: var(--sans); }
+
+.grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+
+.card {
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  background: var(--bg);
+}
+a.card { color: inherit; display: block; }
+a.card:hover { text-decoration: none; background: var(--bg-soft); }
+a.card:hover h3 { color: var(--accent); }
+
+/* Labels: small caps text rather than coloured pills. */
+.tags { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0; padding: 0; list-style: none; }
+.tag {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tag.neutral { color: var(--muted); }
+
+.btn {
+  display: inline-block;
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  font: 600 0.92rem var(--sans);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn:hover { text-decoration: none; filter: brightness(0.95); }
+
+.prose { max-width: 720px; }
+.prose h2 { margin-top: 1.6em; }
+.prose ul { padding-left: 1.2em; }
+.prose pre { background: var(--bg-soft); border: 1px solid var(--border); padding: 12px 14px; overflow-x: auto; font-size: 0.85rem; }
+
+/* ------------------------------------------------------------------ Chinese typography
+   Latin text keeps Source Serif / Source Sans; Chinese characters fall through to
+   Source Han Serif (思源宋體) for reading and Source Han Sans (思源黑體) for interface text. */
+:root:lang(zh-Hans) {
+  --serif: 'Source Serif 4', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', serif;
+  --sans: 'Source Sans 3', 'PingFang SC', 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif;
+}
+:root:lang(zh-Hant) {
+  --serif: 'Source Serif 4', 'Noto Serif HK', 'Source Han Serif HC', 'Noto Serif TC', 'Songti TC', serif;
+  --sans: 'Source Sans 3', 'PingFang HK', 'Noto Sans HK', 'Source Han Sans HC', 'Microsoft JhengHei', sans-serif;
+}
+
+:root:lang(zh) body {
+  line-height: 1.9;                 /* square glyphs need more leading than Latin */
+  font-weight: 400;
+  text-autospace: normal;           /* auto space between 中文 and Latin/digits (modern browsers) */
+  text-spacing-trim: normal;        /* collapse doubled full-width punctuation spacing */
+  line-break: strict;               /* no line starting with 、。」etc. */
+  word-break: normal;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings: heavier Song/Ming weight and proportional punctuation. Tracking only on
+   h1/h2 (mostly translated labels) so English content titles keep normal spacing. */
+:root:lang(zh) :is(h1, h2, h3) {
+  font-weight: 700;
+  line-height: 1.45;
+  font-feature-settings: 'palt';
+}
+:root:lang(zh) :is(h1, h2) { letter-spacing: 0.05em; }
+
+/* A touch of tracking on Chinese reading text - airy, like printed books. */
+:root:lang(zh) :is(.about p, .areas, .page-head p, .lead-by) { letter-spacing: 0.03em; }
+
+/* Dates stay compact: 2026年11月20日, not 2026 年 11 月 20 日. */
+:root:lang(zh) :is(time, .facts dd, .job .meta) { text-autospace: no-autospace; }
+
+/* Translated reading text: justified, as in Chinese print. Only on interface/site
+   texts - English content (summaries, abstracts) keeps ragged-right Latin setting. */
+:root:lang(zh) :is(.about p, .jb-text p, .page-head > p:last-child) { text-align: justify; }
+:root:lang(zh) .jb-text h2 { letter-spacing: 0.08em; }
+:root:lang(zh) .page-head p { font-size: 1.05rem; }
+
+/* Interface labels: CJK has no case, so drop uppercase tracking and size up slightly. */
+:root:lang(zh) :is(.main-nav a, .tag, .btn, .foot-h) {
+  letter-spacing: 0.12em;
+  text-transform: none;
+}
+:root:lang(zh) .main-nav a { font-size: 0.95rem; font-weight: 500; }
+:root:lang(zh) .tag { font-size: 0.78rem; font-weight: 500; }
+:root:lang(zh) .brand-name { letter-spacing: 0.1em; font-weight: 700; }
+:root:lang(zh) .brand-tag { letter-spacing: 0.15em; }
+:root:lang(zh) .section-head a { letter-spacing: 0.06em; }
+
+/* CJK has no italics: never synthesise slanted characters. */
+:root:lang(zh) :is(em, i, .lead-by, .brand-tag, .venue em) { font-style: normal; }
+
+/* ------------------------------------------------------------------ Research area list
+   Used on the home page and the Research page (component AreaTile). */
+.area-list {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 0 32px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+.area-list li { border-bottom: 1px solid var(--border); }
+
+/* ------------------------------------------------------------------ Print */
+@media print {
+  .strip, .nav-button, .main-nav, .site-footer, .join-band, .skip, .filters { display: none !important; }
+  body { font-size: 11pt; line-height: 1.45; color: #000; background: #fff; }
+  main { padding: 0; }
+  a { color: inherit; }
+  .card { break-inside: avoid; }
+  article, .paper { break-inside: avoid; }
+}

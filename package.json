@@ -1,0 +1,20 @@
+{
+  "name": "group-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "fetch:papers": "python3 scripts/fetch_publications.py",
+    "setup": "bash scripts/setup.sh"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.7"
+  },
+  "engines": {
+    "node": ">=22.23"
+  }
+}

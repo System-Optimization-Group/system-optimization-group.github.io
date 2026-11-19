@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { useI18n } from '../i18n';
+import { fmtShortDate } from '../lib/dates';
+interface Props { item: CollectionEntry<'news'>; brief?: boolean }
+const { item, brief = false } = Astro.props;
+const { t, l, intl } = useI18n(Astro);
+---
+<article class="news">
+  <p class="meta">
+    <time datetime={item.data.date.toISOString().slice(0, 10)}>{fmtShortDate(item.data.date, intl)}</time>
+    <span class="tag">{t(`newsTag.${item.data.tag}` as const)}</span>
+  </p>
+  <p class="headline"><a href={l(`/news/${item.id}`)}>{item.data.title}</a></p>
+  {!brief && item.data.summary && <p class="muted summary">{item.data.summary}</p>}
+</article>
+<style>
+  .news { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .news:last-child { border-bottom: 0; }
+  p { margin: 0; }
+  .meta { display: flex; gap: 12px; align-items: baseline; font: 0.82rem var(--sans); color: var(--muted); }
+  .headline { font-weight: 600; line-height: 1.4; }
+  .headline a { color: var(--text); }
+  .headline a:hover { color: var(--accent); }
+  .summary { font-size: 0.95rem; }
+</style>

@@ -1,0 +1,39 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import MemberCard from '../components/MemberCard.astro';
+import { useI18n } from '../i18n';
+import { areaText } from '../lib/areas';
+import { getEntry } from 'astro:content';
+
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const { t, l, lang } = useI18n(Astro);
+const area = project.data.area ? await getEntry(project.data.area) : undefined;
+const areaTitle = area ? areaText(area, lang).title : undefined;
+const { Content } = await render(project);
+const team = (await getCollection('members')).filter((m) => project.data.members.some((r) => r.id === m.id));
+---
+<Base title={project.data.title} description={project.data.summary}>
+  <p class="small">
+    {area ? <a href={l(`/research/areas/${area.id}`)}>← {areaTitle}</a> : <a href={l('/research')}>{t('research.back')}</a>}
+  </p>
+  <div class="page-head">
+    {area && <p class="kicker"><a class="tag" href={l(`/research/areas/${area.id}`)}>{t('research.area')}{t('ui.colon')}{areaTitle}</a></p>}
+    <h1>{project.data.title}</h1>
+    <p>{project.data.summary}</p>
+    <ul class="tags">{project.data.tags.map((x) => <li class="tag">{x}</li>)}</ul>
+    <p class="actions">
+      {project.data.link && <a class="btn primary" href={project.data.link}>{t('research.projectPage')}</a>}
+      {project.data.code && <a class="btn" href={project.data.code}>{t('research.code')}</a>}
+    </p>
+  </div>
+  <div class="prose"><Content /></div>
+  {team.length > 0 && (
+    <section class="section">
+      <h2 class="rule">{t('research.team')}</h2>
+      <div class="grid">{team.map((m) => <MemberCard member={m} />)}</div>
+    </section>
+  )}
+</Base>
+<style>.kicker { margin: 0 0 6px !important; } .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; } .tags { margin-top: 4px; }</style>

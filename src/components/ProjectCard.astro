@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { useI18n } from '../i18n';
+interface Props { project: CollectionEntry<'projects'>; area?: string }  // area: translated area title
+const { project, area } = Astro.props;
+const { l } = useI18n(Astro);
+const d = project.data;
+---
+<a class="card project" href={l(`/research/projects/${project.id}`)}>
+  {area && <p class="kicker"><span class="tag">{area}</span></p>}
+  <h3>{d.title}</h3>
+  <p class="muted small summary">{d.summary}</p>
+  <ul class="tags">{d.tags.map((t) => <li class="tag neutral">{t}</li>)}</ul>
+</a>
+<style>
+  .project { display: flex; flex-direction: column; }
+  .kicker { margin: 0 0 6px; }
+  .summary { flex: 1; }
+</style>

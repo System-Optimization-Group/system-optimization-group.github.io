@@ -1,0 +1,511 @@
+{
+  "generated": "2026-11-15T01:11:19Z",
+  "papers": [
+    {
+      "id": "2608.03318",
+      "title": "Joint-Range Inequalities for Nonconvex QCQPs",
+      "authors": [
+        "Liding Xu",
+        "Sebastian Pokutta"
+      ],
+      "abstract": "We study cutting planes for nonconvex quadratically constrained quadratic programs (QCQPs) through a project-then-lift approach inspired by mixed-integer rounding (MIR) inequalities. Given two base valid inequalities for the extended QCQP formulation, we project the associated two-row relaxation into a two-dimensional set and analyze the joint range of quadratic functions in two base inequalities. For the nonconvex joint range, we give a closed-form convex hull description of the projected set; for the convex joint range, we give its semidefinite representation. This yields a new family of joint-range inequalities, which can be lifted back to the extended QCQP formulation. MIR inequalities can handle ``mixed'' terms: continuous variables or fractional linear combinations of integer variables. Similarly, we propose more flexible secant mixed-joint-range inequalities, which better expose and exploit the nonconvex joint range. The proposed approach preserves sparsity, since the support of each lifted inequality is controlled by that of the base inequalities. In preliminary geometric experiments, the joint-range inequalities yield substantial area reduction of the projected relaxation constructed via reformulation-linearization-technique.",
+      "published": "2026-08-04",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/2608.03318",
+      "pdf": "https://arxiv.org/pdf/2608.03318",
+      "arxiv_id": "2608.03318",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "2605.09186",
+      "title": "Agentic MIP Research: Accelerated Constraint Handler Generation",
+      "authors": [
+        "Liding Xu",
+        "Yugeng Zhou",
+        "Sebastian Pokutta"
+      ],
+      "abstract": "Mixed-integer programming (MIP) research is both mathematically sophisticated and engineering-intensive: testing an algorithmic hypothesis within a branch-and-cut solver requires substantial implementation, debugging, tuning, and large-scale benchmarking. We propose an agentic MIP research framework that shortens this feedback loop by embedding LLM agents into a solver-aware harness for generating, verifying, and evaluating plugins for the open-source solver SCIP. Propagation methods play a central role in accelerating MIP solving by exploiting global constraints. We instantiate our framework on the semantic lifting of MIP formulations into global constraints and the automatic construction of propagation-only SCIP constraint handlers. On the MIPLIB 2017 benchmark set, the framework successfully recovers global constraint structures from constraint programming and generates executable constraint detectors and propagation-only constraint handlers. Furthermore, the framework naturally extends to in-context learning within a sandboxed environment, enabling agents not only to tune and debug generated constraint handlers on real instances, but also to explore global constraint patterns in MIP problems and discover novel propagation strategies not yet implemented in SCIP. This framework allows us to systematically distinguish meaningful algorithmic improvements from low-value or overly costly candidates: the novel propagation methods successfully solved five additional instances within the explored benchmark. Overall, this framework demonstrates that LLM agents can autonomously navigate the complex MIP research loop, paving the way for a more automated solver development process.",
+      "published": "2026-05-09",
+      "primary_category": "cs.AI",
+      "journal_ref": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/2605.09186",
+      "pdf": "https://arxiv.org/pdf/2605.09186",
+      "arxiv_id": "2605.09186",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "2511.18580",
+      "title": "The SCIP Optimization Suite 10.0",
+      "authors": [
+        "Christopher Hojny",
+        "Mathieu Besançon",
+        "Ksenia Bestuzheva",
+        "Sander Borst",
+        "João Dionísio",
+        "Johannes Ehls",
+        "Leon Eifler",
+        "Mohammed Ghannam",
+        "Ambros Gleixner",
+        "Adrian Göß",
+        "Alexander Hoen",
+        "Jacob von Holly-Ponientzietz",
+        "Rolf van der Hulst",
+        "Dominik Kamp",
+        "Thorsten Koch",
+        "Kevin Kofler",
+        "Jurgen Lentz",
+        "Marco Lübbecke",
+        "Stephen J. Maher",
+        "Paul Matti Meinhold",
+        "Gioni Mexi",
+        "Til Mohr",
+        "Erik Mühmer",
+        "Krunal Kishor Patel",
+        "Marc E. Pfetsch",
+        "Sebastian Pokutta",
+        "Chantal Reinartz Groba",
+        "Felipe Serrano",
+        "Yuji Shinano",
+        "Mark Turner",
+        "Stefan Vigerske",
+        "Matthias Walter",
+        "Dieter Weninger",
+        "Liding Xu"
+      ],
+      "abstract": "The SCIP Optimization Suite provides a collection of software packages for mathematical optimization, centered around the constraint integer programming (CIP) framework SCIP. This report discusses the enhancements and extensions included in SCIP Optimization Suite 10.0. The updates in SCIP 10.0 include a new solving mode for exactly solving rational mixed-integer linear programs, a new presolver for detecting implied integral variables, a novel cut-based conflict analysis and separator for flower inequalities, two new heuristics, a novel tool for explaining infeasibility, a new interface for nonlinear solvers as well as improvements in symmetry handling, branching strategies, and SCIP's Benders' decomposition framework. SCIP Optimization Suite 10.0 also includes new and improved features in the the presolving library PaPILO, the parallel framework UG, and the decomposition framework GCG. Moreover, the SCIP Optimization Suite 10.0 contains MIP-DD, the first open-source delta debugger for mixed-integer programming solvers. These additions and enhancements have resulted in an overall performance improvement of SCIP in terms of solving time, number of nodes in the branch-and-bound tree, as well as the reliability of the solver.",
+      "published": "2025-11-23",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/2511.18580",
+      "pdf": "https://arxiv.org/pdf/2511.18580",
+      "arxiv_id": "2511.18580",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "2511.05258",
+      "title": "Convex semidefinite tensor optimization and quantum entanglement",
+      "authors": [
+        "Liding Xu",
+        "Ye-Chao Liu",
+        "Sebastian Pokutta"
+      ],
+      "abstract": "The cone of positive-semidefinite (PSD) matrices is fundamental in convex optimization, and we extend this notion to tensors, defining PSD tensors, which correspond to separable quantum states. We study the convex optimization problem over the PSD tensor cone. While this convex cone admits a smooth reparameterization through tensor factorizations (analogous to the matrix case), it is not self-dual. Moreover, there are currently no efficient algorithms for projecting onto or testing membership in this cone, and the semidefinite tensor optimization problem, although convex, is NP-hard. To address these challenges, we develop methods for computing lower and upper bounds on the optimal value of the problem. We propose a general-purpose iterative refinement algorithm that combines a lifted alternating direction method of multipliers with a cutting-plane approach. This algorithm exploits PSD tensor factorizations to produce heuristic solutions and refine the solutions using cutting planes. Since the method requires a linear minimization oracle over PSD tensors, we design a spatial branch-and-bound algorithm based on convex relaxations and valid inequalities. Our framework allows us to study the white-noise mixing threshold, which characterizes the entanglement properties of quantum states. Numerical experiments on benchmark instances demonstrate the effectiveness of the proposed methods.",
+      "published": "2025-11-07",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/2511.05258",
+      "pdf": "https://arxiv.org/pdf/2511.05258",
+      "arxiv_id": "2511.05258",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "2502.01192",
+      "title": "Sparsity-driven Aggregation of Mixed Integer Programs",
+      "authors": [
+        "Liding Xu",
+        "Gioni Mexi",
+        "Ksenia Bestuzheva"
+      ],
+      "abstract": "Cutting planes are crucial for the performance of branch-and-cut algorithms for solving mixed-integer programming (MIP) problems, and linear row aggregation has been successfully applied to better leverage the potential of several major families of MIP cutting planes. This paper formulates the problem of finding good quality aggregations as an $\\ell_0$-norm minimization problem and employs a combination of the lasso method and iterative reweighting to efficiently find sparse solutions corresponding to good aggregations. A comparative analysis of the proposed algorithm and the state-of-the-art greedy heuristic approach is presented, showing that the greedy heuristic implements a stepwise selection algorithm for the $\\ell_0$-norm minimization problem. Further, we present an example where our approach succeeds, whereas the standard heuristic fails to find an aggregation with desired properties. The algorithm is implemented within the constraint integer programming solver SCIP, and computational experiments on the MIPLIB 2017 benchmark show that although the algorithm leads to slowdowns on relatively ``easier'' instances, our aggregation approach decreases the mean running time on a subset of challenging instances and leads to smaller branch-and-bound trees.",
+      "published": "2025-02-03",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": "10.4230/lipics.sea.2025.27",
+      "url": "https://arxiv.org/abs/2502.01192",
+      "pdf": "https://arxiv.org/pdf/2502.01192",
+      "arxiv_id": "2502.01192",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ],
+      "venue": "Leibniz international proceedings in informatics"
+    },
+    {
+      "id": "2405.13447",
+      "title": "Relaxations for binary polynomial optimization via signed certificates",
+      "authors": [
+        "Liding Xu",
+        "Leo Liberti"
+      ],
+      "abstract": "We consider the problem of minimizing a polynomial $f$ over the (binary) hypercube. We show that, for a specific set of polynomials, their binary non-negativity (i.e. on the hypercube) can be checked in polynomial time via minimum cut algorithms, from which we construct a linear programming representation for this set of polynomials. We categorize binary polynomials according to their signed support patterns and develop parameterized linear programming representations for binary non-negative polynomials. This allows the construction of signed certificates of binary non-negativity with adjustable signed support patterns and representation complexities; and we propose a method for minimizing $f$ by decomposing it as a sum of signed certificates. This method yields new hierarchies of linear programming relaxations for binary polynomial optimization. Moreover, since our decomposition depends only on the support of $f$, the new hierarchies are sparsity-preserving.",
+      "published": "2024-05-22",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": "10.1287/moor.2024.0534",
+      "url": "https://arxiv.org/abs/2405.13447",
+      "pdf": "https://arxiv.org/pdf/2405.13447",
+      "arxiv_id": "2405.13447",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ],
+      "venue": "Mathematics of Operations Research"
+    },
+    {
+      "id": "2404.10467",
+      "title": "Formulations of the continuous set-covering problem on networks: a comparative study",
+      "authors": [
+        "Liding Xu",
+        "Claudia D'Ambrosio"
+      ],
+      "abstract": "We study the continuous set covering problem on networks and propose several new MILP formulations and valid inequalities. In contrast to state-of-the-art formulations, the new formulations only use edges to index installed points, and the formulation sizes are smaller. The covering conditions can be represented as multivariate piecewise linear concave constraints, which we formulate as disjunctive systems. We propose three MILP formulations based on indicator constraint, big-M, and disjunctive programming techniques for modeling the disjunctive system. Finally, we give a classification of new and old formulations, and conduct experiments to compare them computationally.",
+      "published": "2024-04-16",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/2404.10467",
+      "pdf": "https://arxiv.org/pdf/2404.10467",
+      "arxiv_id": "2404.10467",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "2402.17702",
+      "title": "The SCIP Optimization Suite 9.0",
+      "authors": [
+        "Suresh Bolusani",
+        "Mathieu Besançon",
+        "Ksenia Bestuzheva",
+        "Antonia Chmiela",
+        "João Dionísio",
+        "Tim Donkiewicz",
+        "Jasper van Doornmalen",
+        "Leon Eifler",
+        "Mohammed Ghannam",
+        "Ambros Gleixner",
+        "Christoph Graczyk",
+        "Katrin Halbig",
+        "Ivo Hedtke",
+        "Alexander Hoen",
+        "Christopher Hojny",
+        "Rolf van der Hulst",
+        "Dominik Kamp",
+        "Thorsten Koch",
+        "Kevin Kofler",
+        "Jurgen Lentz",
+        "Julian Manns",
+        "Gioni Mexi",
+        "Erik Mühmer",
+        "Marc E. Pfetsch",
+        "Franziska Schlösser",
+        "Felipe Serrano",
+        "Yuji Shinano",
+        "Mark Turner",
+        "Stefan Vigerske",
+        "Dieter Weninger",
+        "Liding Xu"
+      ],
+      "abstract": "The SCIP Optimization Suite provides a collection of software packages for mathematical optimization, centered around the constraint integer programming (CIP) framework SCIP. This report discusses the enhancements and extensions included in the SCIP Optimization Suite 9.0. The updates in SCIP 9.0 include improved symmetry handling, additions and improvements of nonlinear handlers and primal heuristics, a new cut generator and two new cut selection schemes, a new branching rule, a new LP interface, and several bug fixes. The SCIP Optimization Suite 9.0 also features new Rust and C++ interfaces for SCIP, new Python interface for SoPlex, along with enhancements to existing interfaces. The SCIP Optimization Suite 9.0 also includes new and improved features in the LP solver SoPlex, the presolving library PaPILO, the parallel framework UG, the decomposition framework GCG, and the SCIP extension SCIP-SDP. These additions and enhancements have resulted in an overall performance improvement of SCIP in terms of solving time, number of nodes in the branch-and-bound tree, as well as the reliability of the solver.",
+      "published": "2024-02-27",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/2402.17702",
+      "pdf": "https://arxiv.org/pdf/2402.17702",
+      "arxiv_id": "2402.17702",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W7151903033",
+      "title": "Relaxation methods for mixed-integer nonlinear programming",
+      "authors": [
+        "Liding Xu"
+      ],
+      "abstract": "Méthodes de relaxation pour la programmation non linéaire en nombres entiers mixtesRelaxation methods for mixed-integer nonlinear programming Cette thèse se concentre sur la programmation non linéaire à variables mixtes (MINLP), une classe de problèmes d'optimisation mathématique, et les algorithmes associés pour les résoudre. L'algorithme central utilisé dans de nombreux solveurs d'optimisation globale pour les problèmes MINLP est l'algorithme de séparation et évaluation. La clé du succès de l'algorithme de séparation et évaluation réside dans l'utilisation de relaxations des problèmes d'optimisation, qui sont essentielles pour obtenir des bornes duales efficaces.Cependant, la construction de relaxations efficaces dépend des structures spécifiques des problèmes d'optimisation. Dans la première partie de cette thèse, nous présentons un aperçu complet des outils de relaxation structurelle adaptés aux problèmes MINLP structurés liés àdifférents domaines d’applications. Ces outils englobent des relaxations à partir de formulations étendues, des relaxations par sous-modularité, des relaxations utilisant une approximation linéaire par morceaux et des renforcements de relaxation via des coupes d'intersection. Nous développons de nouveaux résultats théoriques avancés basés sur ces outils. Dans la deuxième partie, nous utilisons ces techniques de relaxation pour aborder divers problèmes d'optimisation. Nous explorons les plans coupants pour la programmation signoïdale. Nous proposons des coupes d'intersection pour améliorer les relaxations linéaire des problèmes d'optimisation sous-modulaire.Nous étudions les relaxations de Dantzig-Wolfe pour un problème de programmation linéaire à variables mixtes dans le routage de réseaux sans fil et un problème MINLP dans le binpacking sous-modulaire. Enfin, nous étudions la technique de relaxation big-M appliquée aux fonctions linéaires par morceaux dans le problème de couverture continue sur un réseau.Les travaux réalisés durant cette thèse de doctorat contribuent à l’avancement des approches de la programmation non linéaire en nombre entiers et des méthodes d’optimisation connexes.En effet la combinaison des études exhaustives réalisées sur diverses techniques de relaxation et leurs applications à différents contextes d’optimisation offrent des perspectives précieuses tant pour la compréhension théorique des problèmes que pour la mise en œuvre empirique des résultats.",
+      "published": "2023-12-04",
+      "venue": null,
+      "type": "dissertation",
+      "doi": null,
+      "url": "https://doi.org/10.70675/dbde8746zf429z4981za910z21b588a1fbcf",
+      "pdf": "https://theses.hal.science/tel-04461935/document",
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "2302.14020",
+      "title": "Submodular maximization and its generalization through an intersection cut lens",
+      "authors": [
+        "Liding Xu",
+        "Leo Liberti"
+      ],
+      "abstract": "We study a mixed-integer set $S:=\\{(x,t) \\in \\{0,1\\}^n \\times \\mathbb{R}: f(x) \\ge t\\}$ arising in the submodular maximization problem, where $f$ is a submodular function defined over $\\{0,1\\}^n$. We use intersection cuts to tighten a polyhedral outer approximation of $S$. We construct a continuous extension $F$ of $f$, which is convex and defined over the entire space $\\mathbb{R}^n$. We show that the epigraph of $F$ is an $S$-free set, and characterize maximal $S$-free sets including the epigraph. We propose a hybrid discrete Newton algorithm to compute an intersection cut efficiently and exactly. Our results are generalized to the hypograph or the superlevel set of a submodular-supermodular function, which is a model for discrete nonconvexity. A consequence of these results is intersection cuts for Boolean multilinear constraints. We evaluate our techniques on max cut, pseudo Boolean maximization, and Bayesian D-optimal design problems within a MIP solver.",
+      "published": "2023-02-27",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": "10.1007/s10107-024-02059-2",
+      "url": "https://arxiv.org/abs/2302.14020",
+      "pdf": "https://arxiv.org/pdf/2302.14020",
+      "arxiv_id": "2302.14020",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ],
+      "venue": "Mathematical Programming"
+    },
+    {
+      "id": "2212.02857",
+      "title": "Cutting planes for signomial programming",
+      "authors": [
+        "Liding Xu",
+        "Claudia D'Ambrosio",
+        "Leo Liberti",
+        "Sonia Haddad Vanier"
+      ],
+      "abstract": "Cutting planes are of crucial importance when solving nonconvex nonlinear programs to global optimality, for example using the spatial branch-and-bound algorithms. In this paper, we discuss the generation of cutting planes for signomial programming. Many global optimization algorithms lift signomial programs into an extended formulation such that these algorithms can construct relaxations of the signomial program by outer approximations of the lifted set encoding nonconvex signomial term sets, i.e., hypographs, or epigraphs of signomial terms. We show that any signomial term set can be transformed into the subset of the difference of two concave power functions, from which we derive two kinds of valid linear inequalities. Intersection cuts are constructed using signomial term-free sets which do not contain any point of the signomial term set in their interior. We show that these signomial term-free sets are maximal in the nonnegative orthant, and use them to derive intersection sets. We then convexify a concave power function in the reformulation of the signomial term set, resulting in a convex set containing the signomial term set. This convex outer approximation is constructed in an extended space, and we separate a class of valid linear inequalities by projection from this approximation. We implement the valid inequalities in a global optimization solver and test them on MINLPLib instances. Our results show that both types of valid inequalities provide comparable reductions in running time, number of search nodes, and duality gap.",
+      "published": "2022-12-06",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": "10.1137/23m1599537",
+      "url": "https://arxiv.org/abs/2212.02857",
+      "pdf": "https://arxiv.org/pdf/2212.02857",
+      "arxiv_id": "2212.02857",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ],
+      "venue": "SIAM Journal on Optimization"
+    },
+    {
+      "id": "W4224215815",
+      "title": "Branch-and-Price for Energy Optimization in Multi-Hop Wireless Networks",
+      "authors": [
+        "Liding Xu",
+        "Sonia Haddad-Vanier"
+      ],
+      "abstract": null,
+      "published": "2022-04-19",
+      "venue": null,
+      "type": "preprint",
+      "doi": null,
+      "url": "https://hal.science/hal-03242888",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "2204.00320",
+      "title": "Branch and Price for Submodular Bin Packing",
+      "authors": [
+        "Liding Xu",
+        "Claudia D'Ambrosio",
+        "Sonia Haddad Vanier",
+        "Emiliano Traversi"
+      ],
+      "abstract": "The Submodular Bin Packing (SMBP) problem asks for packing unsplittable items into a minimal number of bins for which the capacity utilization function is submodular. SMBP is equivalent to chance-constrained and robust bin packing problems under various conditions. SMBP is a hard binary nonlinear programming optimization problem. In this paper, we propose a branch-and-price algorithm to solve this problem. The resulting price subproblems are submodular knapsack problems, and we propose a tailored exact branch-and-cut algorithm based on a piece-wise linear relaxation to solve them. To speed up column generation, we develop a hybrid pricing strategy to replace the exact pricing algorithm with a fast pricing heuristic. We test our algorithms on instances generated as suggested in the literature. The computational results show the efficiency of our branch-and-price algorithm and the proposed pricing techniques.",
+      "published": "2022-04-01",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": "10.1016/j.ejco.2023.100074",
+      "url": "https://arxiv.org/abs/2204.00320",
+      "pdf": "https://arxiv.org/pdf/2204.00320",
+      "arxiv_id": "2204.00320",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ],
+      "venue": "EURO Journal on Computational Optimization"
+    },
+    {
+      "id": "2203.00284",
+      "title": "Continuous Covering on Networks: Improved Mixed Integer Programming Formulations",
+      "authors": [
+        "Mercedes Pelegrín",
+        "Liding Xu"
+      ],
+      "abstract": "Covering problems are well-studied in the domain of Operations Research, and, more specifically, in Location Science. When the location space is a network, the most frequent assumption is to consider the candidate facility locations, the points to be covered, or both, to be discrete sets. In this work, we study the set-covering location problem when both candidate locations and demand points are continuous sets on a network. This variant has received little attention, and the scarce existing approaches have focused on particular cases, such as tree networks and integer covering radius. Here we study the general problem and present a Mixed Integer Linear Programming formulation (MILP) for networks with edges' lengths no greater than the covering radius. The model does not lose generality, as any edge not satisfying this condition can be partitioned into subedges of appropriate lengths without changing the problem. We propose a preprocessing algorithm to reduce the size of the MILP, and devise tight big-$M$ constants and valid inequalities to strengthen our formulations. Moreover, a second MILP is proposed, which admits edges' lengths greater than the covering radius. As opposed to existing formulations of the problem (including the first MILP proposed herein), the number of variables and constraints of this second model does not depend on the lengths of the network's edges. This second model represents a scalable approach that particularly suits real-world networks, whose edges are usually greater than the covering radius. Our computational experiments show the strengths and limitations of our exact approach on both real-world and random networks. Our formulations are also tested against an existing exact method.",
+      "published": "2022-03-01",
+      "primary_category": "math.OC",
+      "journal_ref": null,
+      "doi": "10.1016/j.omega.2023.102835",
+      "url": "https://arxiv.org/abs/2203.00284",
+      "pdf": "https://arxiv.org/pdf/2203.00284",
+      "arxiv_id": "2203.00284",
+      "source": "arxiv",
+      "members": [
+        "liding-xu"
+      ],
+      "venue": "Omega"
+    },
+    {
+      "id": "W4226248459",
+      "title": "Intersection Cuts for Signomial Programming",
+      "authors": [
+        "Liding Xu"
+      ],
+      "abstract": null,
+      "published": "2022-02-23",
+      "venue": null,
+      "type": "conference-paper",
+      "doi": null,
+      "url": "https://hal.science/hal-03597220",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W4225738453",
+      "title": "Wireless unsplittable multi-commodity flow with network coding",
+      "authors": [
+        "Liding Xu",
+        "Sonia Haddad-Vanier"
+      ],
+      "abstract": null,
+      "published": "2022-02-23",
+      "venue": null,
+      "type": "conference-paper",
+      "doi": null,
+      "url": "https://hal.science/hal-03596249",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W4225909758",
+      "title": "MIP formulations for Energy Optimization in Multi-Hop Wireless Networks",
+      "authors": [
+        "Liding Xu",
+        "Sonia Haddad-Vanier"
+      ],
+      "abstract": null,
+      "published": "2021-11-30",
+      "venue": null,
+      "type": "conference-paper",
+      "doi": null,
+      "url": "https://hal.science/hal-03647678",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W4225453239",
+      "title": "Branch-and-Price for Energy Optimization in Multi-Hop Wireless Networks. DOI:10.1002/net.22083",
+      "authors": [
+        "Liding Xu",
+        "Sonia Haddad-Vanier"
+      ],
+      "abstract": null,
+      "published": "2021-11-15",
+      "venue": null,
+      "type": "article",
+      "doi": null,
+      "url": "https://hal.science/hal-03647113",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W3212634810",
+      "title": "Branch‐and‐price for energy optimization in multi‐hop wireless sensor networks",
+      "authors": [
+        "Liding Xu",
+        "Sonia Haddad-Vanier"
+      ],
+      "abstract": "Abstract Wireless sensor networks (WSNs) are widely deployed to support transmissions of the huge data emitted by heterogeneous connected devices. The quality of service (QoS) and energy requirements in WSNs are dramatically increasing and becoming challenging issues. Integrating network coding, in the data transmission process, leads to reduced energy consumption and improved QoS. In this work, we study the problem of energy efficiency in multi‐hop WSNs, namely wireless unsplittable multi‐commodity flow with network coding (wUMCFC). We propose mixed‐integer programming formulations of the wUMCFC problem, and we implement an open source solver wUMCFC based on the branch‐and‐price algorithm. To the best of our knowledge, this work is the first study of the wUMCFC problem by mathematical programming tools. We perform a computational study on realistic instances with an analysis of the performance of the proposed algorithm. The computational results show the efficiency of the network coding and provide important information for strategic decisions on routing policies and network management https://github.com/lidingxu/wUMCFC .",
+      "published": "2021-11-15",
+      "venue": "Networks",
+      "type": "article",
+      "doi": "10.1002/net.22083",
+      "url": "https://doi.org/10.1002/net.22083",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W4286386642",
+      "title": "Urbain Air Mobility: Optimal Location of Safety Landing Sites",
+      "authors": [
+        "Liding Xu",
+        "Sonia Haddad-Vanier",
+        "Claudia D’Ambrosio",
+        "Leo Liberti"
+      ],
+      "abstract": null,
+      "published": "2021-04-26",
+      "venue": null,
+      "type": "conference-paper",
+      "doi": null,
+      "url": "https://hal.science/hal-03647687",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W4287075685",
+      "title": "Optimal Location of Safety Landing Sites",
+      "authors": [
+        "Liding Xu",
+        "Sonia Haddad-Vanier",
+        "Claudia D’Ambrosio",
+        "Leo Liberti"
+      ],
+      "abstract": "Vertical Take Off and Landing (VTOLs) vehichules are used to move passengers between skyports in urban air mobility. Safety landing sites (SLSs) cover the trajectory of VTOLs for emergency landings. We study the optimal placement of SLSs in the air transportation network under budget on SLS installation. We propose two models based on the k-splittable and the un-splittable multi-commodity flow problems. We develop edge and path formulations for each model of the problem. Edge formulations for two models are solved by a branchand-bound algorithm. We propose a branch-and-price approach to solve path formulations. We perform numerical experiments on a set of automatically generated instances.",
+      "published": "2021-01-01",
+      "venue": null,
+      "type": "report",
+      "doi": null,
+      "url": "https://hal.science/hal-03286640",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    },
+    {
+      "id": "W4287765926",
+      "title": "Exact approaches for unsplittable data transmission in Wireless Networks with energy challenges",
+      "authors": [
+        "Sonia Haddad-Vanier",
+        "Liding Xu"
+      ],
+      "abstract": null,
+      "published": "2020-06-02",
+      "venue": null,
+      "type": "conference-paper",
+      "doi": null,
+      "url": "https://hal.science/hal-03647621",
+      "pdf": null,
+      "source": "openalex",
+      "members": [
+        "liding-xu"
+      ]
+    }
+  ]
+}

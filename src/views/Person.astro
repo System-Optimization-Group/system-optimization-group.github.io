@@ -1,0 +1,76 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PaperItem from '../components/PaperItem.astro';
+import { papersBy } from '../lib/papers';
+import { url } from '../lib/url';
+import { useI18n } from '../i18n';
+
+interface Props { member: CollectionEntry<'members'> }
+const { member } = Astro.props;
+const { t, l } = useI18n(Astro);
+const d = member.data;
+const { Content } = await render(member);   // Markdown body = bio
+const hasBio = !!member.body?.trim();
+const mine = papersBy(member.id);
+const projects = (await getCollection('projects')).filter((p) => p.data.members.some((r) => r.id === member.id));
+const initials = d.name.split(/\s+/).map((s) => s[0]).slice(0, 2).join('');
+const links = [
+  d.email && { label: t('person.email'), href: `mailto:${d.email}` },
+  d.website && { label: t('person.website'), href: d.website },
+  d.github && { label: 'GitHub', href: d.github },
+  d.scholar && { label: 'Google Scholar', href: d.scholar },
+  d.arxiv?.author_id && { label: 'arXiv', href: `https://arxiv.org/a/${d.arxiv.author_id}` },
+  (d.openalex?.orcid || d.arxiv?.orcid) && { label: 'ORCID', href: `https://orcid.org/${d.openalex?.orcid || d.arxiv?.orcid}` },
+].filter(Boolean) as { label: string; href: string }[];
+---
+<Base title={d.name}>
+  <p class="small"><a href={l('/people')}>{t('person.back')}</a></p>
+  <header class="profile">
+    {d.photo
+      ? <img src={url(d.photo)} alt={d.name} class="avatar" />
+      : <div class="avatar ph" aria-hidden="true">{initials}</div>}
+    <div>
+      <h1>{d.name}</h1>
+      <p class="muted">{d.title ?? t(`role.${d.role}`)}</p>
+      {links.length > 0 && <p class="links">{links.map((x) => <a href={x.href}>{x.label}</a>)}</p>}
+      {d.interests.length > 0 && <ul class="tags">{d.interests.map((i) => <li class="tag">{i}</li>)}</ul>}
+    </div>
+  </header>
+
+  {hasBio && <div class="prose"><Content /></div>}
+
+  {projects.length > 0 && (
+    <section class="section">
+      <h2 class="rule">{t('person.projects')}</h2>
+      <ul>{projects.map((p) => <li><a href={l(`/research/projects/${p.id}`)}>{p.data.title}</a></li>)}</ul>
+    </section>
+  )}
+
+
+  {mine.length > 0 && (
+    <section class="section">
+      <div class="section-head">
+        <h2>{t('person.publications')} <span class="muted">({mine.length})</span></h2>
+        <a href={l(`/publications?member=${member.id}`)}>{t('pubs.searchArrow')}</a>
+      </div>
+      {mine.map((p) => <PaperItem paper={p} />)}
+    </section>
+  )}
+</Base>
+
+<style>
+  .profile { display: flex; gap: 28px; align-items: center; margin: 12px 0 32px; flex-wrap: wrap; }
+  .avatar { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; }
+  .ph { display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 2.4rem; font-weight: 650; }
+  h1 { margin-bottom: 4px; }
+  .profile p { margin: 0 0 10px; }
+  .links { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.95rem; }
+  @media (max-width: 600px) {
+    .profile { gap: 16px; align-items: flex-start; }
+    .avatar { width: 88px; height: 88px; }
+    .ph { font-size: 1.8rem; }
+    .links { gap: 0 18px; }
+    .links a { padding: 6px 0; }
+  }
+</style>

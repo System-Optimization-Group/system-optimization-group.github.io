@@ -1,0 +1,9 @@
+# Papers that are not on arXiv. Merged into publications.json by the fetcher.
+# - id: doe2023book            # any unique string
+#   title: A Book on Optimization
+#   authors: [Ada Lovelace, John Doe]
+#   published: 2023-05-01
+#   journal_ref: Springer, 2023
+#   url: https://doi.org/...
+#   members: [ada-lovelace, john-doe]
+[]

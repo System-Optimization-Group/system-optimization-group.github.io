@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import NewsItem from '../components/NewsItem.astro';
+import { useI18n } from '../i18n';
+const { t } = useI18n(Astro);
+const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date);
+const years = [...new Set(news.map((n) => n.data.date.getUTCFullYear()))];
+---
+<Base title={t('news.title')}>
+  <div class="page-head"><h1>{t('news.title')}</h1><p>{t('news.intro')}</p></div>
+  {years.map((y) => (
+    <section class="year">
+      <h2 class="rule">{y}</h2>
+      {news.filter((n) => n.data.date.getUTCFullYear() === y).map((n) => <NewsItem item={n} />)}
+    </section>
+  ))}
+</Base>
+<style>.year { max-width: 760px; margin-bottom: 36px; }</style>

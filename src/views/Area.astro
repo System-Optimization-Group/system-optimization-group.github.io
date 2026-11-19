@@ -1,0 +1,54 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import MemberCard from '../components/MemberCard.astro';
+import { areaText } from '../lib/areas';
+import { useI18n } from '../i18n';
+
+interface Props { area: CollectionEntry<'areas'> }
+const { area } = Astro.props;
+const { t, l, lang } = useI18n(Astro);
+const { title, summary, topics } = areaText(area, lang);
+const { Content } = await render(area);
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.area?.id === area.id).sort((a, b) => a.data.order - b.data.order);
+const active = projects.filter((p) => p.data.active);
+const past = projects.filter((p) => !p.data.active);
+const memberIds = new Set(projects.flatMap((p) => p.data.members.map((r) => r.id)));
+const team = (await getCollection('members')).filter((m) => memberIds.has(m.id) && m.data.role !== 'alumni');
+---
+<Base title={title} description={summary}>
+  <p class="small"><a href={l('/research')}>{t('research.back')}</a></p>
+  <div class="page-head">
+    <p class="kicker"><span class="tag">{t('research.area')}</span></p>
+    <h1>{title}</h1>
+    <p>{summary}</p>
+    {topics.length > 0 && <ul class="tags topics">{topics.map((x) => <li class="tag">{x}</li>)}</ul>}
+  </div>
+  <div class="prose"><Content /></div>
+
+  <section class="section">
+    <h2 class="rule">{t('research.projects')}</h2>
+    {active.length > 0
+      ? <div class="grid">{active.map((p) => <ProjectCard project={p} />)}</div>
+      : <p class="muted">{t('research.noProjects')}</p>}
+  </section>
+
+  {past.length > 0 && (
+    <section class="section">
+      <h2 class="rule">{t('research.past')}</h2>
+      <div class="grid">{past.map((p) => <ProjectCard project={p} />)}</div>
+    </section>
+  )}
+
+  {team.length > 0 && (
+    <section class="section">
+      <h2 class="rule">{t('research.team')}</h2>
+      <div class="grid">{team.map((m) => <MemberCard member={m} />)}</div>
+    </section>
+  )}
+</Base>
+<style>.kicker { margin: 0 0 6px !important; }</style>
+
+<style>.topics { margin-top: 14px; }</style>

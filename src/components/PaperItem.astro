@@ -1,0 +1,121 @@
+---
+import type { Paper } from '../lib/papers';
+import { useI18n } from '../i18n';
+import { authorIndex, norm } from '../lib/members';
+import { bibtex } from '../lib/bibtex';
+
+interface Props { paper: Paper; compact?: boolean }
+const { paper, compact = false } = Astro.props;
+const { t, l } = useI18n(Astro);
+
+// Highlight group members in the author list (matched by name or alias).
+const index = await authorIndex();
+const memberOf = (a: string) => index.get(norm(a));
+const MAX = 10;
+const shown = paper.authors.length > MAX + 2 ? paper.authors.slice(0, MAX) : paper.authors;
+const hidden = paper.authors.length - shown.length;
+const venue = paper.journal_ref || paper.venue;
+const yr = paper.published.slice(0, 4);
+const status = !venue && paper.arxiv_id ? t('paper.preprint') : null;
+const uid = paper.id.replace(/[^a-zA-Z0-9]/g, '-');
+---
+<article class="paper" data-year={yr}
+  data-members={paper.members.join(' ')}
+  data-search={`${paper.title} ${paper.authors.join(' ')} ${paper.id} ${venue ?? ''}`.toLowerCase()}>
+  <p class="title"><a href={paper.url}>{paper.title}</a></p>
+  <p class="authors">
+    {shown.map((a, i) => (
+      <>
+        {memberOf(a)
+          ? <a class="me" href={l(`/people/${memberOf(a)}`)}>{a}</a>
+          : <span>{a}</span>}
+        {i < shown.length - 1 ? ', ' : ''}
+      </>
+    ))}
+    {hidden > 0 && <span>, {t('paper.etal')}</span>}
+  </p>
+  <p class="venue">
+    {venue ? <em>{venue}</em> : status && <em>{status}</em>}{venue || status ? ', ' : ''}{yr}.
+  </p>
+  <p class="links">
+    {paper.arxiv_id && <a href={`https://arxiv.org/abs/${paper.arxiv_id}`}>arXiv:{paper.arxiv_id}</a>}
+    {paper.pdf && <a href={paper.pdf}>PDF</a>}
+    {paper.doi && <a href={`https://doi.org/${paper.doi}`}>DOI</a>}
+    {!compact && paper.abstract && <button type="button" data-toggle={`abs-${uid}`} aria-expanded="false">{t('paper.abstract')}</button>}
+    {!compact && <button type="button" data-toggle={`bib-${uid}`} aria-expanded="false">{t('paper.bibtex')}</button>}
+    {paper.primary_category && <span class="cat">{paper.primary_category}</span>}
+  </p>
+  {!compact && paper.abstract && <p class="panel abstract" id={`abs-${uid}`} hidden>{paper.abstract}</p>}
+  {!compact && (
+    <div class="panel bib" id={`bib-${uid}`} hidden>
+      <button type="button" class="copy" data-copy={`bib-${uid}`} data-copied={t('paper.copied')}>{t('paper.copy')}</button>
+      <pre><code>{bibtex(paper)}</code></pre>
+    </div>
+  )}
+</article>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    const toggle = t.closest<HTMLElement>('[data-toggle]');
+    if (toggle) {
+      const panel = document.getElementById(toggle.dataset.toggle!);
+      if (panel) {
+        panel.hidden = !panel.hidden;
+        toggle.setAttribute('aria-expanded', String(!panel.hidden));
+      }
+    }
+    const copy = t.closest<HTMLElement>('[data-copy]');
+    if (copy) {
+      const code = document.getElementById(copy.dataset.copy!)?.querySelector('code');
+      const done = () => {
+        const label = copy.textContent;
+        copy.textContent = copy.dataset.copied ?? 'Copied';
+        setTimeout(() => (copy.textContent = label), 1500);
+      };
+      if (code) {
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(code.textContent ?? '').then(done, () => {});
+        } else {
+          // No Clipboard API (plain http, older mobile browsers): select the text and copy it.
+          const range = document.createRange();
+          range.selectNodeContents(code);
+          const sel = getSelection();
+          sel?.removeAllRanges();
+          sel?.addRange(range);
+          try { if (document.execCommand('copy')) done(); } catch { /* the text stays selected */ }
+        }
+      }
+    }
+  });
+</script>
+
+<style>
+  .paper { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .paper:last-child { border-bottom: 0; }
+  p { margin: 0; }
+  .title { font-weight: 600; font-size: 1.04rem; line-height: 1.4; }
+  .title a { color: var(--text); }
+  .title a:hover { color: var(--accent); }
+  .authors { color: var(--muted); font-size: 0.95rem; }
+  .authors .me { color: var(--text); font-weight: 600; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
+  .venue { font-size: 0.95rem; }
+  .links { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; margin-top: 4px; font: 0.82rem var(--sans); }
+  .links a::before, .links button::before { content: '['; color: var(--muted); }
+  .links a::after, .links button::after { content: ']'; color: var(--muted); }
+  .links button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; }
+  .links button:hover { text-decoration: underline; }
+  .cat { color: var(--muted); }
+  @media (max-width: 600px) {
+    .links { font-size: 0.88rem; gap: 0 18px; }
+    .links a, .links button { padding: 8px 0; }  /* ~36px tap targets */
+    .title { font-size: 1rem; }
+    .bib pre { white-space: pre-wrap; word-break: break-word; padding-top: 34px; }
+  }
+  .panel { margin-top: 10px; font-size: 0.92rem; max-width: 860px; }
+  .abstract { color: var(--muted); }
+  .bib { position: relative; }
+  .bib pre { margin: 0; padding: 12px 14px; background: var(--bg-soft); border: 1px solid var(--border); overflow-x: auto; font-size: 0.8rem; line-height: 1.5; }
+  .copy { position: absolute; top: 6px; right: 6px; font: 600 0.75rem var(--sans); padding: 3px 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; }
+  [hidden] { display: none !important; }
+</style>
