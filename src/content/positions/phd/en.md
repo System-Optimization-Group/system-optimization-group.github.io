@@ -3,8 +3,6 @@ title: PhD theses at The Hong Kong Polytechnic University
 kind: PhD
 order: 1
 open: false
-summary: PhD research in mathematical optimization, machine learning, and decision-making for complex systems.
-start: Flexible (contact 3–6 months in advance)
 location: The Hong Kong Polytechnic University (PolyU)
 ---
 

@@ -3,8 +3,6 @@ title: Postdoctoral research
 kind: Postdoc
 order: 2
 open: false
-summary: Independent postdoctoral research in mathematical optimization, machine learning, and complex systems.
-start: Flexible (contact 3–6 months in advance)
 location: The Hong Kong Polytechnic University (PolyU)
 ---
 

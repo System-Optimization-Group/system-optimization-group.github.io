@@ -73,6 +73,23 @@ const steps = (['jobs.step1', 'jobs.step2', 'jobs.step3', 'jobs.step4'] as const
         </div>
       </section>
     )}
+    <section class="section">
+      <h2 class="rule">{t('jobs.openTitle')}</h2>
+      {positions.some((p) => p.open) ? (
+        <ul class="open-list">
+          {positions.filter((p) => p.open).map((p) => (
+            <li>
+              <div>
+                <strong>{p.title}</strong>
+                <span class="muted"> · {p.deadline ? `${t('jobs.deadline')}: ${fmtDate(p.deadline, intl)}` : t('jobs.untilFilled')}</span>
+                {p.summary && <div class="muted">{p.summary}</div>}
+              </div>
+              <a class="btn primary" href={applyHref(p.apply ?? mailto)}>{t('jobs.apply')}</a>
+            </li>
+          ))}
+        </ul>
+      ) : <p class="muted">{t('jobs.noneOpen')}</p>}
+    </section>
   </div>
 </Base>
 <style>
@@ -105,6 +122,8 @@ const steps = (['jobs.step1', 'jobs.step2', 'jobs.step3', 'jobs.step4'] as const
   .pos-body p {
     margin: 10px 0;
   }
+  .open-list { list-style: none; margin: 12px 0 0; padding: 0; }
+  .open-list li { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 12px 0; border-bottom: 1px solid var(--border); }
   .open-tag { margin-left: 10px; vertical-align: middle; }
   .facts { display: grid; grid-template-columns: max-content 1fr; gap: 2px 16px; margin: 6px 0 12px; font: 0.92rem var(--sans); }
   .facts dt { color: var(--muted); }

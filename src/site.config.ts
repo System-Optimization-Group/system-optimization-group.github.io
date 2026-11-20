@@ -43,7 +43,7 @@ export const site: SiteText & {
       'Our group is highly international, and English is widely spoken in Hong Kong. We welcome interest from students and researchers worldwide for the various positions in our group.',
     ],
     inquiries: [
-      'We review inquiries on a rolling basis. While we do not have open positions or guaranteed funding available for every inquiry, there are various sources of funding that we explore on a case-by-case basis. We will work with promising candidates to identify suitable funding opportunities.',
+      'We review inquiries on a rolling basis. Although we cannot offer an open position or guaranteed funding for every inquiry, we explore various funding sources case by case and work with promising candidates to identify suitable opportunities. If we are unable to reply in time, it is usually because no positions are currently open.',
       'We advise all candidates to contact us at least 3 months prior to your preferred start time; for international applicants who require a working visa in Hong Kong, please reach out at least 3–6 months before your ideal start date. Note that securing funding may take some time, and yearly fellowship applications have hard deadlines set by the university.',
     ],
   },
@@ -77,7 +77,7 @@ export const site: SiteText & {
           '课题组高度国际化，英语在香港广泛使用。我们诚挚欢迎世界各地的学生与学者咨询和申请各类职位。',
         ],
         inquiries: [
-          '我们常年接受并滚动审阅各类申请与咨询。虽然我们无法为每一位申请者提供现成的空缺职位或全额资助，但我们会根据具体情况探索多种资助途径，并与有潜力的候选人共同发掘合适的资助机会。',
+          '我们常年接受并滚动审阅各类申请与咨询。虽然我们无法为每一位申请者提供现成的空缺职位或全额资助，但我们会根据具体情况探索多种资助途径，并与有潜力的候选人共同发掘合适的资助机会。若未能及时回复，通常是因为目前没有开放的职位。',
           '建议所有候选人至少在期望入职时间前 3 个月与我们联系；需要办理香港工作签证的国际申请者，请至少提前 3 至 6 个月接洽。请注意，争取资助需要一定周期，且大学各项年度奖学金申请均有严格的截止日期。',
         ],
       },
@@ -99,7 +99,7 @@ export const site: SiteText & {
           '本組高度國際化，英語在香港廣泛使用。我們誠摯歡迎世界各地的學生及研究人員諮詢及申請各類職位。',
         ],
         inquiries: [
-          '我們全年滾動審閱各類申請與諮詢。雖然我們未必能為每位申請人提供現成空缺或保證資助，但我們會因應個別情況探討多種資助來源，並與具潛力的候選人共同發掘合適的資助機會。',
+          '我們全年滾動審閱各類申請與諮詢。雖然我們未必能為每位申請人提供現成空缺或保證資助，但我們會因應個別情況探討多種資助來源，並與具潛力的候選人共同發掘合適的資助機會。若未能及時回覆，通常是因為目前沒有開放的職位。',
           '我們建議所有候選人至少在預期入職前 3 個月與我們聯絡；需要辦理香港工作簽證的國際申請人，請至少提前 3 至 6 個月接洽。請注意，落實資助需時，且大學各項年度獎學金申請均設有嚴格截止日期。',
         ],
       },

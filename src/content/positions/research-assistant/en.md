@@ -3,14 +3,12 @@ title: Research assistant
 kind: Research Assistant
 order: 3
 open: false
-summary: Research assistant position in mathematical optimization, machine learning, and complex systems.
-start: Flexible (contact 3–6 months in advance)
 location: The Hong Kong Polytechnic University (PolyU) / Remote
 ---
 
 ## What does this cover?
 
-Your interests should align with our group's research, as you will be working closely with one of our doctoral or postdoctoral researchers. Students from The Hong Kong Polytechnic University are welcome to apply; students based at other universities in Hong Kong need approval from their home institutions. Remote mode is possible but not recommended.
+Your interests should align with our group's research, as you will be working closely with one of our doctoral or postdoctoral researchers. Students from The Hong Kong Polytechnic University are welcome to apply; students based at other universities in Hong Kong need approval from their home institutions. Remote mode is possible.
 
 ## What are the requirements?
 
