@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-15T01:11:19Z",
+  "generated": "2026-11-20T10:26:52Z",
   "papers": [
     {
       "id": "2608.03318",
@@ -296,13 +296,13 @@
         "Liding Xu",
         "Sonia Haddad-Vanier"
       ],
-      "abstract": null,
+      "abstract": "Wireless networks are widely deployed to support transmissions of the huge amount of data emitted by heterogeneous connected devices.The quality of service (QoS) and energy requirements in wireless networks are dramatically increasing and becoming challenging issues.Integrating network coding, in the data transmission process, leads to reduced energy consumption and improved QoS.In this work, we study the problem of energy efficiency in wireless multi-hop networks, namely wireless unsplittable multicommodity flow with network coding (wUMCFC).We propose mixedinteger programming formulations of the wUMCFC problem and an exact approach based on the branch-and-price algorithm.To the best of our knowledge, this work is the first study of this problem by mathematical programming tools.We perform a computational study on realistic instances with an analysis of the performance of the proposed methods.The obtained results show the efficiency of the network coding and provide important information for strategic decisions on routing policies and network management.",
       "published": "2022-04-19",
       "venue": null,
       "type": "preprint",
       "doi": null,
       "url": "https://hal.science/hal-03242888",
-      "pdf": null,
+      "pdf": "https://hal.science/hal-03242888/document",
       "source": "openalex",
       "members": [
         "liding-xu"
@@ -482,7 +482,7 @@
       "type": "report",
       "doi": null,
       "url": "https://hal.science/hal-03286640",
-      "pdf": null,
+      "pdf": "https://hal.science/hal-03286640/document",
       "source": "openalex",
       "members": [
         "liding-xu"
