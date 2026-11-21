@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-20T10:26:52Z",
+  "generated": "2026-11-21T10:32:14Z",
   "papers": [
     {
       "id": "2608.03318",
@@ -434,7 +434,7 @@
         "Liding Xu",
         "Sonia Haddad-Vanier"
       ],
-      "abstract": "Abstract Wireless sensor networks (WSNs) are widely deployed to support transmissions of the huge data emitted by heterogeneous connected devices. The quality of service (QoS) and energy requirements in WSNs are dramatically increasing and becoming challenging issues. Integrating network coding, in the data transmission process, leads to reduced energy consumption and improved QoS. In this work, we study the problem of energy efficiency in multi‐hop WSNs, namely wireless unsplittable multi‐commodity flow with network coding (wUMCFC). We propose mixed‐integer programming formulations of the wUMCFC problem, and we implement an open source solver wUMCFC based on the branch‐and‐price algorithm. To the best of our knowledge, this work is the first study of the wUMCFC problem by mathematical programming tools. We perform a computational study on realistic instances with an analysis of the performance of the proposed algorithm. The computational results show the efficiency of the network coding and provide important information for strategic decisions on routing policies and network management https://github.com/lidingxu/wUMCFC .",
+      "abstract": "Wireless sensor networks (WSNs) are widely deployed to support transmissions of the huge data emitted by heterogeneous connected devices. The quality of service (QoS) and energy requirements in WSNs are dramatically increasing and becoming challenging issues. Integrating network coding, in the data transmission process, leads to reduced energy consumption and improved QoS. In this work, we study the problem of energy efficiency in multi‐hop WSNs, namely wireless unsplittable multi‐commodity flow with network coding (wUMCFC). We propose mixed‐integer programming formulations of the wUMCFC problem, and we implement an open source solver wUMCFC based on the branch‐and‐price algorithm. To the best of our knowledge, this work is the first study of the wUMCFC problem by mathematical programming tools. We perform a computational study on realistic instances with an analysis of the performance of the proposed algorithm. The computational results show the efficiency of the network coding and provide important information for strategic decisions on routing policies and network management https://github.com/lidingxu/wUMCFC .",
       "published": "2021-11-15",
       "venue": "Networks",
       "type": "article",
