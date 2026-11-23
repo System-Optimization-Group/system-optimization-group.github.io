@@ -5,7 +5,7 @@ import { fmtDate } from '../lib/dates';
 import { getPositions, applyHref } from '../lib/positions';
 import { site } from '../site.config';
 import { useI18n } from '../i18n';
-const { t, s, lang, intl } = useI18n(Astro);
+const { t, l, s, lang, intl } = useI18n(Astro);
 // Positions are Markdown files in src/content/positions/<id>/<lang>.md
 const positions = await Promise.all(
   (await getPositions(lang)).map(async (p) => ({ ...p, Content: (await render(p.entry)).Content })),
@@ -14,8 +14,8 @@ const positions = await Promise.all(
 const subject = `[Application to ${site.shortName}]`;
 const mailto = `mailto:${site.email}?subject=${encodeURIComponent(subject + ' ')}`;
 // Split each step around its {subject} / {email} placeholder so they can be styled/linked.
-const steps = (['jobs.step1', 'jobs.step2', 'jobs.step3', 'jobs.step4'] as const)
-  .map((k) => t(k, { subject: '\u0000s\u0000', email: '\u0000e\u0000' }).split('\u0000'));
+const steps = (['jobs.step1', 'jobs.step2', 'jobs.step3', 'jobs.step4', 'jobs.step5'] as const)
+  .map((k) => t(k, { subject: '\u0000s\u0000', email: '\u0000e\u0000', areas: '\u0000a\u0000' }).split('\u0000'));
 ---
 <Base title={t('nav.jobs')}>
   <div class="page-head">
@@ -43,6 +43,7 @@ const steps = (['jobs.step1', 'jobs.step2', 'jobs.step3', 'jobs.step4'] as const
         {steps.map((parts) => (
           <li>{parts.map((p, i) => i % 2 === 0 ? p
             : p === 's' ? <code>{subject}</code>
+            : p === 'a' ? <a href={l('/research')}>{t('jobs.areasLink')}</a>
             : <a href={mailto}>{site.email}</a>)}</li>
         ))}
       </ol>
